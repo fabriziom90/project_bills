@@ -1,0 +1,105 @@
+{% extends "base.html.twig" %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <form method="POST" id="add_bill">
+            	<div class="row">
+            		<div class="col-12 col-md-6">
+		                <div class="form-group">
+		                	<label class="control-label" for="date">Date*</label>
+		                	<input type="date" class="form-control" name="date" id="date" required>
+		                </div>
+            		</div>
+            		<div class="col-12 col-md-6">
+            			<div class="form-group">
+            				<label class="control-label" for="number">Bill's number</label>
+            				<input type="number" min="0" step="1" class="form-control" name="number" id="number" required>
+            			</div>
+            		</div>
+            		<div class="col-12 col-md-6">
+            			<div class="form-group">
+            				<label class="control-label" for="customer_id">User ID</label>
+            				<select class="form-control" name="customer_id" id="customer_id" required="">
+            					{% for user in users %}
+            						<option value="{{user.id}}">{{user.name}} {{user.surname}}</option>
+            					{% endfor %}
+            				</select>
+            			</div>
+            		</div>
+            		<div class="col-12 col-md-6">
+            			<div class="form-group">
+            				<label class="control-label" for="description">Description</label>
+            				<textarea class="form-control" id="description" name="description" required></textarea>
+            			</div>
+            		</div>
+            		<div class="col-12 col-md-6">
+            			<div class="form-group">
+            				<label class="control-label" for="quantity">Quantity</label>
+            				<input class="form-control" type="number" min="0" name="quantity" id="quantity" required>
+            			</div>
+            		</div>
+            		<div class="col-12 col-md-6">
+            			<div class="form-group">
+            				<label class="control-label" for="amount_free_iva">Amount (free IVA)</label>
+            				<input type="number" class="form-control" min="0" step="0.1" id="amount_free_iva" name="amount_free_iva" required>
+            			</div>
+            		</div>
+            		<div class="col-12 col-md-6">
+            			<label class="control-label" for="amount_with_iva">Amount (with IVA)</label>
+            			<input class="form-control" id="amount_with_iva" name="amount_with_iva" required>
+            		</div>
+            		<div class="col-12 col-md-6">
+            			<label class="control-label" for="total_with_iva">Total (with IVA)</label>
+            			<input class="form-control" min="0" step="0.1" id="total_with_iva" name="total_with_iva" required>
+            		</div>
+            	</div>
+            	<div class="row">
+            		<div class="col-12 col-md-6">
+            			<div class="form-group">
+            				<button class="btn btn-success" id="save_bill">Save</button>
+            			</div>
+            		</div>
+            	</div>
+            </form>
+        </div>
+    </div>
+    <div class="row">
+    	<div class="col-12">
+    		<table id="table_bills">
+    			<thead>
+    				<th>ID</th>
+    				<th>Date</th>
+    				<th>Bill's number</th>
+    				<th>User</th>
+    				<th>Description</th>
+    				<th>Quantity</th>
+    				<th>Amount (free IVA)</th>
+    				<th>Amount (with IVA)</th>
+    				<th>Total (with IVA)</th>
+					<th>Tools</th>
+    			</thead>
+    			<tbody>
+    				{% for bill in bills %}
+    					<tr>
+    						<td>{{ bill.id }}</td>
+    						<td>{{ bill.date|date('Y-m-d') }}</td>
+    						<td>{{ bill.number }}</td>
+    						<td>{{ bill.user }}</td>
+    						<td>{{ bill.description }}</td>
+    						<td>{{ bill.quantity }}</td>
+    						<td>{{ bill.amount_free_iva }}</td>
+    						<td>{{ bill.amount_with_iva }}</td>
+    						<td>{{ bill.total }}</td>
+							<td>
+								<button class="delete-bill btn btn-danger btn-square openmodal" data-toggle="modal" data-target="#modal-delete-bill" data-id="{{bill.id}}"><i class="fas fa-trash"></i></button>
+							</td>
+    					</tr>
+    				{% endfor %}
+    			</tbody>
+    		</table>
+    	</div>
+    </div>
+</div>
+{% endblock %}
